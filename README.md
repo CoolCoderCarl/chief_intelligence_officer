@@ -2,4 +2,5 @@
 
 ## Description
 
-Custom container image for testing 
+Custom container image for testing  
+Simple python app which throw logs to stdout
