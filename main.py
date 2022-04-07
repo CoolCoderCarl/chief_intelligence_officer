@@ -1,8 +1,6 @@
 import logging
 import sys
 
-# Creating and Configuring Logger
-
 Log_Format = "%(levelname)s | %(asctime)s - %(message)s"
 
 logging.basicConfig(stream=sys.stdout,
@@ -12,7 +10,5 @@ logging.basicConfig(stream=sys.stdout,
 
 logger = logging.getLogger()
 
-# Testing our Logger
 while True:
-    # logger.info("Container is running now")
-    logger.debug("Debug")
+    logger.debug("Debugging")
