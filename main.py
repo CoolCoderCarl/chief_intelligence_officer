@@ -14,4 +14,4 @@ logger = logging.getLogger()
 
 # Testing our Logger
 while True:
-    logger.info("Container running")
+    logger.info("Container is running")
