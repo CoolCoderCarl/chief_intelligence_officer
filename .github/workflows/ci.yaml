@@ -80,16 +80,16 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: html
+          format: markdown
           message: |
             ${{ github.actor }} created commit:
 
             Commit with tag: ${{ needs.docker.outputs.get_current_tag }}
 
-            <b>WorkFlows:</b> https://github.com/${{ github.repository }}/actions
+            *WorkFlows:* https://github.com/${{ github.repository }}/actions
 
             Repository: ${{ github.repository }}
             Branch: ${{ github.ref }}
-            <b>Pushed images:</b> <code>docker pull h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}</code>
+            *Pushed images:* ```docker pull h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}```
 
             See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{ github.sha }}
