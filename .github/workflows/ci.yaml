@@ -90,6 +90,6 @@ jobs:
 
             Repository: ${{ github.repository }}
             Branch: ${{ github.ref }}
-            **Pushed images:** `docker pull h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}`
+            *Pushed images:* `docker pull h0d0user/logger\_image\_tester:${{ needs.docker.outputs.get_current_tag }}`
 
             See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{ github.sha }}
