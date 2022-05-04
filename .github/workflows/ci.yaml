@@ -91,4 +91,4 @@ jobs:
             Branch: ${{ github.ref }}
             Pushed images: h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}
 
-            See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{github.sha}}
+            See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{ github.sha }}
