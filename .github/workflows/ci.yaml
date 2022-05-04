@@ -84,7 +84,7 @@ jobs:
           message: |
             ${{ github.actor }} created commit:
 
-            Commit with tag: ${{ needs.docker.outputs.get_current_tag }}
+            Commited with tag: ${{ needs.docker.outputs.get_current_tag }}
 
             <b>WorkFlows:<b> https://github.com/${{ github.repository }}/actions
 
