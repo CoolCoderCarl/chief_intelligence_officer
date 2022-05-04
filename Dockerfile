@@ -1,7 +1,5 @@
-FROM python:3.9
+FROM python:3-alpine
 
 COPY main.py /
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "./main.py" ]
+CMD [ "python", "./main.py" ]

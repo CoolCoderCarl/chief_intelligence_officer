@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  code_quality:
+    runs-on: ubuntu-latest
+    name: Checks with black, isort
+    container: python:3.9
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run script
+        run: |
+          pip install -r requirements.txt
+          ls -la
+
+      - name: Black check
+        run:
+          black --check .
+
+      - name: Isort check
+        run:
+          isort --check .
