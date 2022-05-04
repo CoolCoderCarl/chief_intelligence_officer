@@ -85,7 +85,7 @@ jobs:
 
             Commit with tag: ${{ needs.docker.outputs.get_current_tag }}
 
-            WorkFlow: ${{ github.workflow }}
+            WorkFlow: ${{ github.action }}
 
             Repository: ${{ github.repository }}
             Branch: ${{ github.ref }}
