@@ -85,6 +85,8 @@ jobs:
 
             Commit with tag: ${{ needs.docker.outputs.get_current_tag }}
 
+            WorkFlow: ${{ github.workflow }}
+
             Repository: ${{ github.repository }}
             Branch: ${{ github.ref }}
             Pushed images: h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}
