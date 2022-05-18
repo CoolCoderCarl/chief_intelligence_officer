@@ -1,0 +1,16 @@
+# Git
+.git
+.github
+.gitignore
+.gitattributes
+
+# Docker
+docker-compose.yml
+**/Dockerfile
+.docker
+.dockerignore
+
+# Meta
+README.md
+LICENSE
+requirements.txt

@@ -17,7 +17,6 @@ jobs:
       - name: Run script
         run: |
           pip install -r requirements.txt
-          ls -la
 
       - name: Black check
         run:
@@ -50,11 +49,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Search
-        run: |
-          pwd
-          ls -la
 
       - name: Build and push
         id: push_image
@@ -89,6 +83,7 @@ jobs:
             <b>WorkFlows:</b> https://github.com/${{ github.repository }}/actions
 
             Repository: ${{ github.repository }}
+
             Branch: ${{ github.ref }}
 
             <b>Pushed images:</b> <code>docker pull h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}</code>
