@@ -15,16 +15,25 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run script
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Black check
-        run:
-          black --check .
+        run: black --check .
 
       - name: Isort check
-        run:
-          isort --check .
+        run: isort --check .
+
+      - name: Notify if failure
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>!!! FAILED !!!</b>
+            <b>Failed job:</b> https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
 
 
   docker:
@@ -56,11 +65,24 @@ jobs:
         with:
           context: .
           push: true
-          tags: h0d0user/logger_image_tester:${{ steps.tag_version.outputs.new_tag }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ steps.tag_version.outputs.new_tag }},
+          ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest
 
       - name: Set tag version to output
         id: set_current_tag_id
         run: echo "::set-output name=current_tag::${{ steps.tag_version.outputs.new_tag }}"
+
+      - name: Notify if failure
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>!!! FAILED !!!</b>
+            <b>Failed job:</b> https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
 
 
   telegram:
@@ -86,6 +108,7 @@ jobs:
 
             Branch: ${{ github.ref }}
 
-            <b>Pushed images:</b> <code>docker pull h0d0user/logger_image_tester:${{ needs.docker.outputs.get_current_tag }}</code>
+            <b>Pushed images:</b> <code>docker pull ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ needs.docker.outputs.get_current_tag }},
+            ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest</code>
 
             See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{ github.sha }}
