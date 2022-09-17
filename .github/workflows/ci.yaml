@@ -65,8 +65,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ steps.tag_version.outputs.new_tag }},
-          ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ steps.tag_version.outputs.new_tag }}, ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest
 
       - name: Set tag version to output
         id: set_current_tag_id
