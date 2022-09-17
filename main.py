@@ -11,9 +11,10 @@ logging.basicConfig(
 
 logger = logging.getLogger()
 
+
 if __name__ == '__main__':
     while True:
-        logger.info(f"Processor:  {processor()}")
+        logger.info(f"Processor: {processor()}")
         sleep(1)
         logger.info(f"Uname: {uname()}")
         sleep(1)
