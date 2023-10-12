@@ -1,6 +1,6 @@
 FROM python:3-alpine
 
-RUN adduser app && chown -R app:app /opt/
+RUN adduser -D -H app && chown -R app:app /opt/
 
 COPY --chown=app:app ./src /opt/
 
