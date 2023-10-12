@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  logger_image_tester:
+    container_name: logger_image_tester
+    image: h0d0user/logger_image_tester:latest
+    restart: always
+    networks:
+      - logger_image_tester
+    volumes:
+      - "./settings.toml:/opt/settings.toml"
+
+networks:
+  logger_image_tester:
+
+volumes:
+  logger_image_tester_volume:
