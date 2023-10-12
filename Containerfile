@@ -1,5 +1,9 @@
 FROM python:3-alpine
 
-COPY main.py /
+RUN useradd app && chown -R app:app /opt/
 
-CMD [ "python", "./main.py" ]
+COPY --chown=app:app ./src /opt/
+
+USER app
+
+CMD [ "python", "/opt/main.py" ]

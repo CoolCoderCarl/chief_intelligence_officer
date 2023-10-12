@@ -25,13 +25,13 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 
-def is_config_loaded():
+def is_config_loaded() -> list:
     try:
         HOSTS = dynaconfig.settings["hosts"]
         return HOSTS
     except KeyError as key_err:
         logging.error(f"Err while loading config - {key_err}")
-        return False
+        return []
 
 
 def icmp_requests(url: str):
@@ -60,7 +60,6 @@ if __name__ == "__main__":
         sleep(1)
         logger.info(f"Uname: {uname()}")
         sleep(1)
-        if is_config_loaded():
-            for host in is_config_loaded():
-                icmp_requests(host)
-                sleep(1)
+        for host in is_config_loaded():
+            icmp_requests(host)
+            sleep(1)
