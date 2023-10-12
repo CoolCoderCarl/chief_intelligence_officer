@@ -66,7 +66,7 @@ jobs:
           context: .
           push: true
           file: Containerfile
-          tags: ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ steps.tag_version.outputs.new_tag }}, ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.tag_version.outputs.new_tag }}, ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
 
       - name: Set tag version to output
         id: set_current_tag_id
@@ -109,6 +109,6 @@ jobs:
             Branch: ${{ github.ref }}
 
             <b>Pushed images:</b> <code>docker pull ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:${{ needs.docker.outputs.get_current_tag }},
-            ${{ secrets.DOCKER_USERNAME }}/logger_image_tester:latest</code>
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest</code>
 
             See changes: https://github.logger_image_tester/${{ github.repository }}/commit/${{ github.sha }}
