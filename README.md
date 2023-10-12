@@ -3,6 +3,8 @@
 Custom container image for testing container env set up  
 Simple python app which throw logs to stdout
 
+***BETA*** It is possible to check network connectivity if pass config to application
+
 ## Prehistory
 This program help to know when internet is available again and notify about it.
 
