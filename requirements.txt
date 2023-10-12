@@ -1,2 +1,4 @@
 black
 isort
+icmplib~=3.0.4
+dynaconf~=3.2.3
