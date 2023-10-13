@@ -2,8 +2,8 @@ import logging
 from platform import processor, uname
 from time import sleep
 
-from icmplib import ICMPLibError, ping
-
+from icmplib import ICMPLibError
+from icmplib import multiping
 import dynaconfig
 
 log_format = "%(levelname)s | %(asctime)s - %(message)s"
@@ -34,22 +34,26 @@ def is_config_loaded() -> list:
         return []
 
 
-def icmp_requests(url: str):
+multihosts = multiping(is_config_loaded())
+
+
+def multiping_requests(multihosts: list):
     """
     Show messages after requests using ICMP
+    :param multihosts:
     :param url:
     :return:
     """
     try:
-        host = ping(url, count=1, timeout=5)
-        if host.is_alive:
-            logging.info(
-                f"Host: {url} | Is host available: {host.is_alive} - Average RTT: {host.avg_rtt}"
-            )
-        else:
-            logging.warning(
-                f"Host: {url} | Attempt successfully failed. | Is host available: {host.is_alive}"
-            )
+        for host in multihosts:
+            if host.is_alive:
+                logging.info(
+                    f"Host: {host.address} | Is host available: {host.is_alive} - Average RTT: {host.avg_rtt}"
+                )
+            else:
+                logging.warning(
+                    f"Host: {host.address} | Attempt successfully failed. | Is host available: {host.is_alive}"
+                )
     except ICMPLibError as icmp_err:
         logging.error(f"Error: {icmp_err}")
 
@@ -60,6 +64,5 @@ if __name__ == "__main__":
         sleep(1)
         logger.info(f"Uname: {uname()}")
         sleep(1)
-        for host in is_config_loaded():
-            icmp_requests(host)
-            sleep(1)
+        multiping_requests(multihosts)
+        sleep(1)
