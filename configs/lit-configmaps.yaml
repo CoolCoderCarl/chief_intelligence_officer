@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: lit-configmaps
 data:
-  kubernetes.conf: |-
+  settings.toml: |-
     hosts = [
         "www.google.com",
         "8.8.8.8",

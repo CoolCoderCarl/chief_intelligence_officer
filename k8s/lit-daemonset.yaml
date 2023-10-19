@@ -3,7 +3,7 @@ kind: DaemonSet
 metadata:
   name: lit-daemonset
   labels:
-    troubleshooting: true
+    troubleshooting: "true"
 spec:
   selector:
     matchLabels:
