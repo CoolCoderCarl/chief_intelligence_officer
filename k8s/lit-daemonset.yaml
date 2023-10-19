@@ -23,9 +23,12 @@ spec:
       containers:
       - name: lit-daemonset
         image: h0d0user/logger_image_tester:latest
+        env:
+        - name: SETTINGS_FILE_FOR_DYNACONF
+          value: "/mnt/settings.toml"
         volumeMounts:
         - name: lit-configmaps
-          mountPath: /opt/
+          mountPath: /mnt/
       terminationGracePeriodSeconds: 30
       volumes:
       - name: lit-configmaps
