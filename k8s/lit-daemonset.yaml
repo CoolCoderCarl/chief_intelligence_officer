@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: lit-daemonset
+  labels:
+    troubleshooting: true
+spec:
+  selector:
+    matchLabels:
+      name: lit-daemonset
+  template:
+    metadata:
+      labels:
+        name: lit-daemonset
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: lit-daemonset
+        image: h0d0user/logger_image_tester:latest
+        volumeMounts:
+        - name: lit-configmaps
+          mountPath: /opt/
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: lit-configmaps
+        configMap:
+          name: lit-configmaps

@@ -2,8 +2,8 @@ import logging
 from platform import processor, uname
 from time import sleep
 
-from icmplib import ICMPLibError
-from icmplib import multiping
+from icmplib import ICMPLibError, multiping
+
 import dynaconfig
 
 log_format = "%(levelname)s | %(asctime)s - %(message)s"
