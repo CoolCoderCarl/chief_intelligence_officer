@@ -1,6 +1,7 @@
 # logger_image_tester
 
-Custom container image for testing container env set up  
+Custom container image for testing container env set up
+
 Simple python app which throw logs to stdout
 
 It is possible to check network connectivity if pass config to application
