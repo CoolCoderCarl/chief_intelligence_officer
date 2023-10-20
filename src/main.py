@@ -23,9 +23,6 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 try:
-    IS_IPV6 = bool(os.getenv("IPV6"))
-    if IS_IPV6:
-        logger.info(f"IPv6 family set to {IS_IPV6}")
     VERBOSE = bool(os.getenv("VERBOSE"))
     if VERBOSE:
         logger.info(f"Verbose set to {VERBOSE}")
@@ -69,17 +66,12 @@ def multiping_requests(multihosts: list):
 
 
 if __name__ == "__main__":
-    config = load_config()
+    hosts = load_config()
     while True:
         try:
-            if IS_IPV6:
-                multihosts = multiping(config, family=6)  # TODO IP family do not work
-                multiping_requests(multihosts)
-                sleep(1)
-            else:
-                multihosts = multiping(config)
-                multiping_requests(multihosts)
-                sleep(1)
+            multihosts = multiping(hosts)
+            multiping_requests(multihosts)
+            sleep(1)
         except ValueError as val_err:
             logging.warning(f"Config was not loaded - Value Error - {val_err}")
         logger.info(f"Processor: {processor()}")

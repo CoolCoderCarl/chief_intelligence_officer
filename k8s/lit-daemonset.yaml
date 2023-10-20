@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -26,8 +27,6 @@ spec:
         env:
         - name: SETTINGS_FILE_FOR_DYNACONF
           value: "/mnt/settings.toml"
-        - name: IS_IPV6
-          value: "True"
         - name: VERBOSE
           value: "True"
         volumeMounts:

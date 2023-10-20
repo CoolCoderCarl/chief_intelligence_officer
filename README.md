@@ -1,6 +1,6 @@
 # logger_image_tester
 
-Custom container image for testing container env set up
+Custom container image for testing container env set up & network
 
 Simple python app which throw logs to stdout
 
@@ -29,12 +29,9 @@ In K8S manifest you can use some vars to configure network testing
 ```     
 - name: SETTINGS_FILE_FOR_DYNACONF
   value: "/mnt/settings.toml"
-- name: IS_IPV6
-  value: "True"
 - name: VERBOSE
   value: "True"
 ```
 
-1) `SETTINGS_FILE_FOR_DYNACONF` - is a predefined var of dynaconf where it will be search for conf file
-2) `IS_IPV6` - is a switcher needed when targeted networks has IPv6 addresses (leave empty for `False`)
-3) `VERBOSE` - is a switcher needed when you want more results (leave empty for `False`)
+1) `SETTINGS_FILE_FOR_DYNACONF` - is a predefined var of dynaconf where it will search for conf file
+2) `VERBOSE` - is a switcher needed when you want more results (leave empty for `False`)
