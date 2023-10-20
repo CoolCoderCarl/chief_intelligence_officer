@@ -36,5 +36,5 @@ In K8S manifest you can use some vars to configure network testing
 ```
 
 1) `SETTINGS_FILE_FOR_DYNACONF` - is a predefined var of dynaconf where it will be search for conf file
-2) `IS_IPV6` - is a switcher needed when targeted networks has IPv6 addresses
-3) `VERBOSE` - is a switcher needed when you want more results 
+2) `IS_IPV6` - is a switcher needed when targeted networks has IPv6 addresses (leave empty for `False`)
+3) `VERBOSE` - is a switcher needed when you want more results (leave empty for `False`)

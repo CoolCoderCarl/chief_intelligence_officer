@@ -22,7 +22,6 @@ logging.basicConfig(
 
 logger = logging.getLogger()
 
-
 try:
     IS_IPV6 = bool(os.getenv("IPV6"))
     if IS_IPV6:
@@ -31,15 +30,20 @@ try:
     if VERBOSE:
         logger.info(f"Verbose set to {VERBOSE}")
 except KeyError as key_err:
-    logging.warning(f"Key Error {key_err}")
+    logging.warning(f"Key Error - {key_err}")
 
 
-def is_config_loaded() -> list:
+def load_config() -> list:
+    """
+    Load settings.toml with dynaconf and return list of hosts
+    If not return empty list
+    :return:
+    """
     try:
         HOSTS = dynaconfig.settings["hosts"]
         return HOSTS
     except KeyError as key_err:
-        logging.error(f"Err while loading config - {key_err}")
+        logging.error(f"Err while loading config - Key Error - {key_err}")
         return []
 
 
@@ -56,23 +60,29 @@ def multiping_requests(multihosts: list):
                     logging.info(host)
                 else:
                     logging.info(
-                        f"Host: {host.address} | Average RTT: {host.avg_rtt} | Jitter:  {host.jitter}"
+                        f"Host: {host.address} | Average RTT: {host.avg_rtt} | Jitter: {host.jitter}"
                     )
             else:
                 logging.warning(f"Host: {host.address} | Attempt successfully failed !")
     except ICMPLibError as icmp_err:
-        logging.error(f"Error: {icmp_err}")
+        logging.error(f"ICMP Error - {icmp_err}")
 
 
 if __name__ == "__main__":
+    config = load_config()
     while True:
-        if IS_IPV6:
-            multihosts = multiping(is_config_loaded(), family=6)
-        else:
-            multihosts = multiping(is_config_loaded())
+        try:
+            if IS_IPV6:
+                multihosts = multiping(config, family=6)  # TODO IP family do not work
+                multiping_requests(multihosts)
+                sleep(1)
+            else:
+                multihosts = multiping(config)
+                multiping_requests(multihosts)
+                sleep(1)
+        except ValueError as val_err:
+            logging.warning(f"Config was not loaded - Value Error - {val_err}")
         logger.info(f"Processor: {processor()}")
         sleep(1)
         logger.info(f"Uname: {uname()}")
-        sleep(1)
-        multiping_requests(multihosts)
         sleep(1)
