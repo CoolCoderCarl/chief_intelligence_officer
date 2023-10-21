@@ -25,7 +25,7 @@ logger = logging.getLogger()
 try:
     VERBOSE = bool(os.getenv("VERBOSE"))
     if VERBOSE:
-        logger.info(f"Verbose set to {VERBOSE}")
+        logger.info(f"Verbose activated !")
 except KeyError as key_err:
     logging.warning(f"Key Error - {key_err}")
 
@@ -52,17 +52,17 @@ def ping_requests(hosts: list):
     """
     try:
         for host in hosts:
-            host_result = ping(host)
-            if host_result.is_alive:
+            ping_result = ping(host)
+            if ping_result.is_alive:
                 if VERBOSE:
-                    logging.info(host_result)
+                    logging.info(ping_result)
                 else:
                     logging.info(
-                        f"Host: {host_result.address} | Average RTT: {host_result.avg_rtt} | Jitter: {host_result.jitter}"
+                        f"Host: {ping_result.address} | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
                     )
             else:
                 logging.warning(
-                    f"Host: {host_result.address} | Attempt successfully failed !"
+                    f"Host: {ping_result.address} | Attempt successfully failed !"
                 )
     except ICMPLibError as icmp_err:
         logging.error(f"ICMP Error - {icmp_err}")
