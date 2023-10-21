@@ -2,17 +2,17 @@ version: '3'
 
 services:
 
-  logger_image_tester:
-    container_name: logger_image_tester
-    image: h0d0user/logger_image_tester:latest
+  chief_intelligence_officer:
+    container_name: chief_intelligence_officer
+    image: h0d0user/chief_intelligence_officer:latest
     restart: always
     networks:
-      - logger_image_tester
+      - chief_intelligence_officer
     volumes:
       - "./settings.toml:/opt/settings.toml"
 
 networks:
-  logger_image_tester:
+  chief_intelligence_officer:
 
 volumes:
-  logger_image_tester_volume:
+  chief_intelligence_officer_volume:

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: lit-configmaps
+  name: cio-configmaps
 data:
   settings.toml: |-
     hosts = [

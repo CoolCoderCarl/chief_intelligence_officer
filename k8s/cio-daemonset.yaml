@@ -2,17 +2,17 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: lit-daemonset
+  name: cio-daemonset
   labels:
     troubleshooting: "true"
 spec:
   selector:
     matchLabels:
-      name: lit-daemonset
+      name: cio-daemonset
   template:
     metadata:
       labels:
-        name: lit-daemonset
+        name: cio-daemonset
     spec:
       tolerations:
       - key: node-role.kubernetes.io/control-plane
@@ -22,18 +22,18 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
-      - name: lit-daemonset
-        image: h0d0user/logger_image_tester:latest
+      - name: cio-daemonset
+        image: h0d0user/chief_intelligence_officer:latest
         env:
         - name: SETTINGS_FILE_FOR_DYNACONF
           value: "/mnt/settings.toml"
         - name: VERBOSE
           value: "True"
         volumeMounts:
-        - name: lit-configmaps
+        - name: cio-configmaps
           mountPath: /mnt/
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: lit-configmaps
+      - name: cio-configmaps
         configMap:
-          name: lit-configmaps
+          name: cio-configmaps
