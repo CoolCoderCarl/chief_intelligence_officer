@@ -1,4 +1,4 @@
-# logger_image_tester
+# chief_intelligence_officer
 
 Custom container image for testing container env set up & network
 
@@ -16,9 +16,9 @@ Enjoy.
 
 ## How to use
 
-You can check the last available tags here - `https://hub.docker.com/r/h0d0user/logger_image_tester`  
+You can check the last available tags here - `https://hub.docker.com/r/h0d0user/chief_intelligence_officer`  
 
-Or just download latest one - `docker pull h0d0user/logger_image_tester:latest`
+Or just download latest one - `docker pull h0d0user/chief_intelligence_officer:latest`
 
 From this moment this application kuberized, so you can just run it in your clusters as a DaemonSet
 
