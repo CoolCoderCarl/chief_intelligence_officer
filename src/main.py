@@ -55,7 +55,7 @@ def ping_requests(hosts: list):
             ping_result = ping(host)
             if ping_result.is_alive:
                 if VERBOSE:
-                    logging.info(ping_result)
+                    logging.info("TEST")
                 else:
                     logging.info(
                         f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
