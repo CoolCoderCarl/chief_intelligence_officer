@@ -58,7 +58,7 @@ def ping_requests(hosts: list):
                     logging.info(ping_result)
                 else:
                     logging.info(
-                        f"Host: {ping_result.address} | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
+                        f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
                     )
             else:
                 logging.warning(
