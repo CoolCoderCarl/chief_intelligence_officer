@@ -23,7 +23,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: cio-daemonset
-        image: h0d0user/chief_intelligence_officer:latest
+        image: h0d0user/chief_intelligence_officer:v0.3.5
         env:
         - name: SETTINGS_FILE_FOR_DYNACONF
           value: "/mnt/settings.toml"
