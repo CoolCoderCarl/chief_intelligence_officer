@@ -81,13 +81,15 @@ def http_requests(hosts: list):
             try:
                 logging.info(f"Going to request {h}")
                 sleep(1)
-                response = requests.get(f"http://{h}")
-                logging.info(
-                    f"{response.status_code} is type {type(response.status_code)}"
-                )
+                response = requests.get(f"http://{h}", timeout=10)
                 logging.info(response.text)
                 logging.info(response.headers)
                 logging.info(response.ok)
+
+                logging.info(
+                    f"{response.ok} is type {type(response.ok)}"
+                )
+
                 if response.status_code != 200:
                     telegram_sender.send_alert_to_telegram(
                         f"Status code: {response.status_code} for this host: {h}"
