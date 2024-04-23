@@ -32,15 +32,19 @@ except KeyError as key_err:
     logging.warning(f"Key Error - {key_err}")
 
 
-def load_config() -> list:
+def load_config(host_type: str) -> list:
     """
     Load settings.toml with dynaconf and return list of hosts
     If not return empty list
     :return:
     """
     try:
-        HOSTS = dynaconfig.settings["hosts"]
-        return HOSTS
+        if host_type == "icmp":
+            HOSTS = dynaconfig.settings["ICMP"]["HOSTS"]
+            return HOSTS
+        if host_type == "http":
+            HOSTS = dynaconfig.settings["HTTP"]["HOSTS"]
+            return HOSTS
     except KeyError as key_err:
         logging.error(f"Err while loading config - Key Error - {key_err}")
         return []
@@ -49,6 +53,7 @@ def load_config() -> list:
 def icmp_requests(hosts: list):
     """
     Show messages after requests using ICMP
+    And then send an alert if configured
     :param hosts:
     :return:
     """
@@ -60,19 +65,28 @@ def icmp_requests(hosts: list):
                     logging.info(
                         f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
                     )
+                    telegram_sender.send_alert_to_telegram(
+                        f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
+                    )
                 else:
                     logging.info(f"{host} is alive")
+                    telegram_sender.send_alert_to_telegram(f"{host} is alive")
             else:
                 logging.warning(
                     f"Host: {ping_result.address} | Attempt successfully failed !"
                 )
+                telegram_sender.send_alert_to_telegram(
+                    f"Host: {ping_result.address} | Attempt successfully failed !"
+                )
     except ICMPLibError as icmp_err:
         logging.error(f"ICMP Error - {icmp_err}")
+        telegram_sender.send_alert_to_telegram(icmp_err)
 
 
 def http_requests(hosts: list):
     """
     Show messages after requests using HTTP
+    And then send an alert if configured
     :param hosts:
     :return:
     """
@@ -89,25 +103,26 @@ def http_requests(hosts: list):
                     f"Status code: {response.status_code} for this host: {h}"
                 )
         except requests.exceptions.SSLError as ssl_err:
-            logging.error(f"{ssl_err}")
-            telegram_sender.send_alert_to_telegram(f"{ssl_err}")
+            logging.error(f"SSL Error - {ssl_err}")
+            telegram_sender.send_alert_to_telegram(ssl_err)
         except requests.exceptions.Timeout as timeout_err:
-            logging.error(f"{timeout_err}")
-            telegram_sender.send_alert_to_telegram(f"{timeout_err}")
+            logging.error(f"Timeout Error - {timeout_err}")
+            telegram_sender.send_alert_to_telegram(timeout_err)
         except requests.exceptions.ConnectionError as con_err:
-            logging.error(f"{con_err}")
-            telegram_sender.send_alert_to_telegram(f"{con_err}")
+            logging.error(f"Connection Error - {con_err}")
+            telegram_sender.send_alert_to_telegram(con_err)
         except requests.exceptions.BaseHTTPError as base_http_err:
-            logging.error(f"{base_http_err}")
-            telegram_sender.send_alert_to_telegram(f"{base_http_err}")
+            logging.error(f"Base HTTP Error - {base_http_err}")
+            telegram_sender.send_alert_to_telegram(base_http_err)
 
 
 if __name__ == "__main__":
-    hosts = load_config()
+    icmp_hosts = load_config("icmp")
+    http_hosts = load_config("http")
     while True:
         try:
-            # icmp_requests(hosts)
-            http_requests(hosts)
+            icmp_requests(icmp_hosts)
+            http_requests(http_hosts)
             sleep(1)
         except ValueError as val_err:
             logging.warning(f"Config was not loaded - Value Error - {val_err}")
