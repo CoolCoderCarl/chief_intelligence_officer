@@ -79,19 +79,25 @@ def http_requests(hosts: list):
     try:
         for h in hosts:
             try:
-                print(h)
+                logging.info(f"Going to request {h}")
+                sleep(1)
                 response = requests.get(f"http://{h}")
                 # response = requests.get(f"https://{h}", verify=False)
-                print(response)
+                logging.info(response.status_code)
+                logging.info(response.text)
+                logging.info(response.request)
+                logging.info(response.headers)
+                logging.info(response.ok)
+                logging.info(response.raw)
+                logging.info(response.reason)
+                if response.status_code != 200:
+                    telegram_sender.send_alert_to_telegram(h)
             except requests.exceptions.SSLError as ssl_err:
-                logging.error(f"SSL Error - {ssl_err}")
-                print(h)
-                response = requests.get(f"https://{h}")
-                print(response)
+                telegram_sender.send_alert_to_telegram(f"{h} and {ssl_err}")
     except requests.exceptions.BaseHTTPError as base_http_err:
-        logging.error(f"BASE HTTP Error - {base_http_err}")
+        # logging.error(f"BASE HTTP Error - {base_http_err}")
         # SEND
-        # telegram_sender.send_alert_to_telegram("something happend")
+        telegram_sender.send_alert_to_telegram(f"{base_http_err}")
 
 
 if __name__ == "__main__":
