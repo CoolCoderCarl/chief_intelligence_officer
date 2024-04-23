@@ -67,7 +67,7 @@ def icmp_requests(hosts: list):
                     )
                 else:
                     logging.info(f"{host} is alive")
-            else: # TODO add map and send ip with associated resource name
+            else:  # TODO add map and send ip with associated resource name
                 logging.error(
                     f"Host: {ping_result.address} | Attempt successfully failed !"
                 )
@@ -91,7 +91,7 @@ def http_requests(hosts: list):
             logging.info(f"Going to request {host}")
             response = requests.get(f"http://{host}", timeout=5)
             if VERBOSE:
-                logging.info(response.text) # TODO parse json
+                logging.info(response.text)  # TODO parse json
                 logging.info(response.headers)
 
             if response.status_code != 200:
