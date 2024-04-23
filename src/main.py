@@ -67,8 +67,8 @@ def icmp_requests(hosts: list):
                     )
                 else:
                     logging.info(f"{host} is alive")
-            else:
-                logging.warning(
+            else: # TODO add map and send ip with associated resource name
+                logging.error(
                     f"Host: {ping_result.address} | Attempt successfully failed !"
                 )
                 telegram_sender.send_alert_to_telegram(
@@ -86,18 +86,17 @@ def http_requests(hosts: list):
     :param hosts:
     :return:
     """
-    for h in hosts:
+    for host in hosts:
         try:
-            logging.info(f"Going to request {h}")
-            sleep(1)
-            response = requests.get(f"http://{h}", timeout=10)
+            logging.info(f"Going to request {host}")
+            response = requests.get(f"http://{host}", timeout=5)
             if VERBOSE:
-                logging.info(response.text)
+                logging.info(response.text) # TODO parse json
                 logging.info(response.headers)
 
             if response.status_code != 200:
                 telegram_sender.send_alert_to_telegram(
-                    f"Status code: {response.status_code} for this host: {h}"
+                    f"Status code: {response.status_code} for this host: {host}"
                 )
         except requests.exceptions.SSLError as ssl_err:
             logging.error(f"SSL Error - {ssl_err}")

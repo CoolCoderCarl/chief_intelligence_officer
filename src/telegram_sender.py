@@ -1,4 +1,3 @@
-import email
 import logging
 import os
 
@@ -37,11 +36,10 @@ except KeyError as key_err:
 
 def send_alert_to_telegram(message):
     """
-    Send messages from mail to telegram
+    Send messages alerts to telegram
     :param message:
     :return:
     """
-    # msg = email.message_from_bytes(message)
     try:
         response = requests.post(
             API_URL,
