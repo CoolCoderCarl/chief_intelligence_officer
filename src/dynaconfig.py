@@ -8,7 +8,7 @@ logging.basicConfig(
 )
 
 settings = Dynaconf(
-    settings_files=["configs/settings.toml"],
+    settings_files=["/opt/settings.toml"],
 )
 
 

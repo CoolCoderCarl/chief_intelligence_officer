@@ -1,11 +1,13 @@
 import logging
 import os
-from platform import processor, uname
+from platform import processor, uname  # TODO add platform env var
 from time import sleep
 
+import requests
 from icmplib import ICMPLibError, ping
 
 import dynaconfig
+import telegram_sender
 
 log_format = "%(levelname)s | %(asctime)s - %(message)s"
 
@@ -44,7 +46,7 @@ def load_config() -> list:
         return []
 
 
-def ping_requests(hosts: list):
+def icmp_requests(hosts: list):
     """
     Show messages after requests using ICMP
     :param hosts:
@@ -68,15 +70,33 @@ def ping_requests(hosts: list):
         logging.error(f"ICMP Error - {icmp_err}")
 
 
+def http_requests(hosts: list):
+    """
+    Show messages after requests using HTTP
+    :param hosts:
+    :return:
+    """
+    try:
+        for h in hosts:
+            print(h)
+            response = requests.get(f"https://{h}")
+            print(response)
+    except requests.exceptions.BaseHTTPError as icmp_err:
+        logging.error(f"ICMP Error - {icmp_err}")
+        # SEND
+        # telegram_sender.send_alert_to_telegram("something happend")
+
+
 if __name__ == "__main__":
     hosts = load_config()
     while True:
         try:
-            ping_requests(hosts)
+            # icmp_requests(hosts)
+            http_requests(hosts)
             sleep(1)
         except ValueError as val_err:
             logging.warning(f"Config was not loaded - Value Error - {val_err}")
-        logger.info(f"Processor: {processor()}")
-        sleep(1)
-        logger.info(f"Uname: {uname()}")
-        sleep(1)
+        # logger.info(f"Processor: {processor()}")
+        # sleep(1)
+        # logger.info(f"Uname: {uname()}")
+        # sleep(1)
