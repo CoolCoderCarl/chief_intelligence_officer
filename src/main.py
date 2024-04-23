@@ -79,11 +79,12 @@ def icmp_requests(hosts: list):
                     f"Host: {ping_result.address} | Attempt successfully failed !"
                 )
                 telegram_sender.send_alert_to_telegram(
-                    f"Host: {ping_result.address} | Attempt successfully failed !"
+                    f"Host: {ping_result.address} | Attempt successfully failed !",
+                    environment=ENVIRONMENT,
                 )
     except ICMPLibError as icmp_err:
         logging.error(f"ICMP Error - {icmp_err}")
-        telegram_sender.send_alert_to_telegram(icmp_err)
+        telegram_sender.send_alert_to_telegram(icmp_err, environment=ENVIRONMENT)
 
 
 def http_requests(hosts: list):
@@ -103,20 +104,23 @@ def http_requests(hosts: list):
 
             if response.status_code != 200:
                 telegram_sender.send_alert_to_telegram(
-                    f"Status code: {response.status_code} for this host: {host}"
+                    f"Status code: {response.status_code} for this host: {host}",
+                    environment=ENVIRONMENT,
                 )
         except requests.exceptions.SSLError as ssl_err:
             logging.error(f"SSL Error - {ssl_err}")
-            telegram_sender.send_alert_to_telegram(ssl_err)
+            telegram_sender.send_alert_to_telegram(ssl_err, environment=ENVIRONMENT)
         except requests.exceptions.Timeout as timeout_err:
             logging.error(f"Timeout Error - {timeout_err}")
-            telegram_sender.send_alert_to_telegram(timeout_err)
+            telegram_sender.send_alert_to_telegram(timeout_err, environment=ENVIRONMENT)
         except requests.exceptions.ConnectionError as con_err:
             logging.error(f"Connection Error - {con_err}")
-            telegram_sender.send_alert_to_telegram(con_err)
+            telegram_sender.send_alert_to_telegram(con_err, environment=ENVIRONMENT)
         except requests.exceptions.BaseHTTPError as base_http_err:
             logging.error(f"Base HTTP Error - {base_http_err}")
-            telegram_sender.send_alert_to_telegram(base_http_err)
+            telegram_sender.send_alert_to_telegram(
+                base_http_err, environment=ENVIRONMENT
+            )
 
 
 if __name__ == "__main__":
