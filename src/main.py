@@ -82,12 +82,16 @@ def http_requests(hosts: list):
                 logging.info(f"Going to request {h}")
                 sleep(1)
                 response = requests.get(f"http://{h}")
-                logging.info(f"{response.status_code} is type {type(response.status_code)}")
+                logging.info(
+                    f"{response.status_code} is type {type(response.status_code)}"
+                )
                 logging.info(response.text)
                 logging.info(response.headers)
                 logging.info(response.ok)
                 if response.status_code != 200:
-                    telegram_sender.send_alert_to_telegram(f"Status code: {response.status_code} for this host: {h}")
+                    telegram_sender.send_alert_to_telegram(
+                        f"Status code: {response.status_code} for this host: {h}"
+                    )
             except requests.exceptions.SSLError as ssl_err:
                 telegram_sender.send_alert_to_telegram(f"{h} and {ssl_err}")
     except requests.exceptions.ConnectionError as con_err:
