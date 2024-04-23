@@ -31,6 +31,13 @@ try:
 except KeyError as key_err:
     logging.warning(f"Key Error - {key_err}")
 
+try:
+    ENVIRONMENT = os.getenv("ENVIRONMENT")
+    if ENVIRONMENT:
+        logger.info(f"Environment is set to {ENVIRONMENT} !")
+except KeyError as key_err:
+    logging.warning(f"Key Error - {key_err}")
+
 
 def load_config(host_type: str) -> list:
     """

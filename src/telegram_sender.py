@@ -34,9 +34,10 @@ except KeyError as key_err:
     logging.warning(f"Key Error - {key_err}")
 
 
-def send_alert_to_telegram(message):
+def send_alert_to_telegram(message, environment: str):
     """
     Send messages alerts to telegram
+    :param environment:
     :param message:
     :return:
     """
@@ -45,7 +46,7 @@ def send_alert_to_telegram(message):
             API_URL,
             json={
                 "chat_id": CHAT_ID,
-                "text": f"{message}",
+                "text": f"Environment: {environment} \n {message}",
             },
         )
         if response.status_code == 200:
