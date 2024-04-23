@@ -47,7 +47,7 @@ def send_alert_to_telegram(message):
             API_URL,
             json={
                 "chat_id": CHAT_ID,
-                "text": f"Something happend",
+                "text": f"{message}",
             },
         )
         if response.status_code == 200:
