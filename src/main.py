@@ -76,28 +76,29 @@ def http_requests(hosts: list):
     :param hosts:
     :return:
     """
-    try:
-        for h in hosts:
-            try:
-                logging.info(f"Going to request {h}")
-                sleep(1)
-                response = requests.get(f"http://{h}", timeout=10)
-                logging.info(response.text)
-                logging.info(response.headers)
-                logging.info(response.ok)
+    for h in hosts:
+        try:
+            logging.info(f"Going to request {h}")
+            sleep(1)
+            response = requests.get(f"http://{h}", timeout=10)
+            logging.info(response.text)
+            logging.info(response.headers)
+            logging.info(response.ok)
 
-                logging.info(f"{response.ok} is type {type(response.ok)}")
+            logging.info(f"{response.ok} is type {type(response.ok)}")
 
-                if response.status_code != 200:
-                    telegram_sender.send_alert_to_telegram(
-                        f"Status code: {response.status_code} for this host: {h}"
-                    )
-            except requests.exceptions.SSLError as ssl_err:
-                telegram_sender.send_alert_to_telegram(f"{h} and {ssl_err}")
-    except requests.exceptions.ConnectionError as con_err:
-        telegram_sender.send_alert_to_telegram(f"{con_err}")
-    except requests.exceptions.BaseHTTPError as base_http_err:
-        telegram_sender.send_alert_to_telegram(f"{base_http_err}")
+            if response.status_code != 200:
+                telegram_sender.send_alert_to_telegram(
+                    f"Status code: {response.status_code} for this host: {h}"
+                )
+        except requests.exceptions.SSLError as ssl_err:
+            telegram_sender.send_alert_to_telegram(f"{h} and {ssl_err}")
+        except requests.exceptions.Timeout as timeout_err:
+            telegram_sender.send_alert_to_telegram(f"{h} and {timeout_err}")
+        except requests.exceptions.ConnectionError as con_err:
+            telegram_sender.send_alert_to_telegram(f"{h} and {con_err}")
+        except requests.exceptions.BaseHTTPError as base_http_err:
+            telegram_sender.send_alert_to_telegram(f"{h} and {base_http_err}")
 
 
 if __name__ == "__main__":
