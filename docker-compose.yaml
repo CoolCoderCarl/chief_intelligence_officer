@@ -6,6 +6,9 @@ services:
     container_name: chief_intelligence_officer
     image: h0d0user/chief_intelligence_officer:latest
     restart: always
+    environment:
+      SETTINGS_FILE_FOR_DYNACONF: "/mnt/settings.toml"
+      VERBOSE: "True"
     networks:
       - chief_intelligence_officer
     volumes:
