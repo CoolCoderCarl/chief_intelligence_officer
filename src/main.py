@@ -80,13 +80,13 @@ def http_requests(hosts: list):
         for h in hosts:
             try:
                 print(h)
-                response = requests.get(f"https://{h}")
+                response = requests.get(f"http://{h}")
                 # response = requests.get(f"https://{h}", verify=False)
                 print(response)
             except requests.exceptions.SSLError as ssl_err:
                 logging.error(f"SSL Error - {ssl_err}")
                 print(h)
-                response = requests.get(f"http://{h}")
+                response = requests.get(f"https://{h}")
                 print(response)
     except requests.exceptions.BaseHTTPError as base_http_err:
         logging.error(f"BASE HTTP Error - {base_http_err}")
