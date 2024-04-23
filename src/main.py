@@ -63,14 +63,10 @@ def icmp_requests(hosts: list):
             if ping_result.is_alive:
                 if VERBOSE:
                     logging.info(
-                        f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
-                    )
-                    telegram_sender.send_alert_to_telegram(
-                        f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
+                        f"Host: {ping_result.address} | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
                     )
                 else:
                     logging.info(f"{host} is alive")
-                    telegram_sender.send_alert_to_telegram(f"{host} is alive")
             else:
                 logging.warning(
                     f"Host: {ping_result.address} | Attempt successfully failed !"
@@ -95,8 +91,9 @@ def http_requests(hosts: list):
             logging.info(f"Going to request {h}")
             sleep(1)
             response = requests.get(f"http://{h}", timeout=10)
-            logging.info(response.text)
-            logging.info(response.headers)
+            if VERBOSE:
+                logging.info(response.text)
+                logging.info(response.headers)
 
             if response.status_code != 200:
                 telegram_sender.send_alert_to_telegram(
