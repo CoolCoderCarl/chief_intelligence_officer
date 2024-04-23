@@ -26,12 +26,12 @@ spec:
         image: h0d0user/chief_intelligence_officer:v0.3.6
         env:
         - name: SETTINGS_FILE_FOR_DYNACONF
-          value: "/mnt/settings.toml"
+          value: "/opt/settings.toml"
         - name: VERBOSE
           value: "True"
         volumeMounts:
         - name: cio-configmaps
-          mountPath: /mnt/
+          mountPath: /opt/
       terminationGracePeriodSeconds: 30
       volumes:
       - name: cio-configmaps
