@@ -89,13 +89,17 @@ def http_requests(hosts: list):
                     f"Status code: {response.status_code} for this host: {h}"
                 )
         except requests.exceptions.SSLError as ssl_err:
-            telegram_sender.send_alert_to_telegram(f"{h} and {ssl_err}")
+            logging.error(f"{ssl_err}")
+            telegram_sender.send_alert_to_telegram(f"{ssl_err}")
         except requests.exceptions.Timeout as timeout_err:
-            telegram_sender.send_alert_to_telegram(f"{h} and {timeout_err}")
+            logging.error(f"{timeout_err}")
+            telegram_sender.send_alert_to_telegram(f"{timeout_err}")
         except requests.exceptions.ConnectionError as con_err:
-            telegram_sender.send_alert_to_telegram(f"{h} and {con_err}")
+            logging.error(f"{con_err}")
+            telegram_sender.send_alert_to_telegram(f"{con_err}")
         except requests.exceptions.BaseHTTPError as base_http_err:
-            telegram_sender.send_alert_to_telegram(f"{h} and {base_http_err}")
+            logging.error(f"{base_http_err}")
+            telegram_sender.send_alert_to_telegram(f"{base_http_err}")
 
 
 if __name__ == "__main__":
