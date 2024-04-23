@@ -78,11 +78,18 @@ def http_requests(hosts: list):
     """
     try:
         for h in hosts:
-            print(h)
-            response = requests.get(f"https://{h}")
-            print(response)
-    except requests.exceptions.BaseHTTPError as icmp_err:
-        logging.error(f"ICMP Error - {icmp_err}")
+            try:
+                print(h)
+                response = requests.get(f"https://{h}")
+                # response = requests.get(f"https://{h}", verify=False)
+                print(response)
+            except requests.exceptions.SSLError as ssl_err:
+                logging.error(f"SSL Error - {ssl_err}")
+                print(h)
+                response = requests.get(f"http://{h}")
+                print(response)
+    except requests.exceptions.BaseHTTPError as base_http_err:
+        logging.error(f"BASE HTTP Error - {base_http_err}")
         # SEND
         # telegram_sender.send_alert_to_telegram("something happend")
 
