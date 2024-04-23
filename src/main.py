@@ -55,11 +55,11 @@ def ping_requests(hosts: list):
             ping_result = ping(host)
             if ping_result.is_alive:
                 if VERBOSE:
-                    logging.info("TEST")
-                else:
                     logging.info(
                         f"Host: {ping_result.address} TEST | Average RTT: {ping_result.avg_rtt} ms | Jitter: {ping_result.jitter} ms"
                     )
+                else:
+                    logging.info(f"{host} is alive")
             else:
                 logging.warning(
                     f"Host: {ping_result.address} | Attempt successfully failed !"
