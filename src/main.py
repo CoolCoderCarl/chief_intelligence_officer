@@ -104,7 +104,9 @@ def http_requests(hosts: list):
     for host in hosts:
         try:
             logging.info(f"Going to request {host}")
-            response = requests.get(f"http://{host}", timeout=dynaconfig.settings["REQUEST"]["TIMEOUT"])
+            response = requests.get(
+                f"http://{host}", timeout=dynaconfig.settings["REQUEST"]["TIMEOUT"]
+            )
             if VERBOSE:
                 logging.info(response.text)  # TODO parse json
                 logging.info(response.headers)
