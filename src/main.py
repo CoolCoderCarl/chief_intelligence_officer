@@ -1,6 +1,6 @@
 import logging
 import os
-from platform import processor, uname  # TODO add platform env var
+from platform import processor, uname
 from time import sleep
 
 import requests
@@ -28,6 +28,13 @@ try:
     VERBOSE = bool(os.getenv("VERBOSE"))
     if VERBOSE:
         logger.info(f"Verbose activated !")
+except KeyError as key_err:
+    logging.warning(f"Key Error - {key_err}")
+
+try:
+    PLATFORM = bool(os.getenv("PLATFORM"))
+    if PLATFORM:
+        logger.info(f"Platform info activated !")
 except KeyError as key_err:
     logging.warning(f"Key Error - {key_err}")
 
@@ -97,7 +104,7 @@ def http_requests(hosts: list):
     for host in hosts:
         try:
             logging.info(f"Going to request {host}")
-            response = requests.get(f"http://{host}", timeout=5)
+            response = requests.get(f"http://{host}", timeout=dynaconfig.settings["REQUEST"]["TIMEOUT"])
             if VERBOSE:
                 logging.info(response.text)  # TODO parse json
                 logging.info(response.headers)
@@ -131,9 +138,10 @@ if __name__ == "__main__":
             icmp_requests(icmp_hosts)
             http_requests(http_hosts)
             sleep(1)
+            if PLATFORM:
+                logger.info(f"Processor: {processor()}")
+                sleep(1)
+                logger.info(f"Uname: {uname()}")
+                sleep(1)
         except ValueError as val_err:
             logging.warning(f"Config was not loaded - Value Error - {val_err}")
-        # logger.info(f"Processor: {processor()}")
-        # sleep(1)
-        # logger.info(f"Uname: {uname()}")
-        # sleep(1)

@@ -10,6 +10,7 @@ services:
       SETTINGS_FILE_FOR_DYNACONF: "/opt/settings.toml"
       VERBOSE: "True"
       ALERTING: "True"
+      PLATFORM: "True"
       ENVIRONMENT: "Dev"
 #      CHANEL: "TODO"
     networks:
